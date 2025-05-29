@@ -1,46 +1,80 @@
 // 엘레베이터
 
-// 엘레베이터에 뜨는 층 수와 눌린 버튼의 숫자가 같을 때 5초 정지 후 다시 움직이기
-// 정지 이후 버튼 겉 선 다시 검정으로 변하게
-// 버튼이 여러 개 눌렀을 때도 생각할 것
 
+// 멈춘 층에서 문 열렸다 닫히게
 
 let currentFloorDisplay = document.getElementById("currentFloor");
 
 let currentFloor = 1
 
+const pressedFloor =[];
+
+let isMoving = false;
+
+// 시작 층
 currentFloorDisplay.textContent = `현재 층: ${currentFloor}`;
 
-for (i = 0; i < 10; i ++) {
+const pushButton = document.getElementById("pushButton")
+
+for (i = 10; i >= 1; i --) {
     const button = document.createElement("button");
-    let clickButton = (button.textContent = i + 1);
+    button.textContent = i;
     button.style.margin = "5px";
     
+    document.getElementById("pushButton").appendChild(button);
+
     button.addEventListener("click", function () {
         console.log('현재층 : ' + currentFloor);
-        console.log('누른 층 : ' + clickButton);
         
-        alert(`${clickButton}층 선택`);
-        moveToFloor(currentFloor, clickButton);
-        currentFloor = clickButton;
+        const targetFloor = Number(button.textContent);
+        
+        if (!pressedFloor.includes(targetFloor)) {
+            pressedFloor.push(targetFloor);
+            button.style.backgroundColor = "rgb(226, 75, 75)";
+            console.log(`${targetFloor}층 선택!`);
+            moveToFloor();
+        }
     });
-    
-    function moveToFloor (currentFloor, targetFloor) {
-    const interval = setInterval(() => {
-        if(currentFloor < targetFloor) {
-            currentFloor ++;
-            currentFloorDisplay.textContent = `현재 층: ${currentFloor}`;
-        } else if (currentFloor > targetFloor) {
-            currentFloor --;
-            currentFloorDisplay.textContent = `현재 층: ${currentFloor}`;
-        } else {
-            clearInterval(interval);
-            alert(`${targetFloor}층 도착!`);
-        };
-    }, 1000);
 }
 
-    document.getElementById("pushButton").appendChild(button);
-}
+    function moveToFloor () {
+        if (isMoving || pressedFloor.length === 0) {
+            return;
+        }
 
+        const targetFloor = pressedFloor[0];
+        isMoving = true;
 
+        const interval = setInterval(() => {
+            if(currentFloor < targetFloor) {
+                currentFloor ++;
+                currentFloorDisplay.textContent = `현재 층: ${currentFloor}`;
+            } else if (currentFloor > targetFloor) {
+                currentFloor --;
+                currentFloorDisplay.textContent = `현재 층: ${currentFloor}`;
+            } 
+            
+            if (currentFloor === targetFloor) {
+                clearInterval(interval);
+                
+                console.log(`${targetFloor}층 도착!`);
+                
+                    currentFloorDisplay.textContent = `현재 층: ${currentFloor}`;
+                        
+                    const buttonsColor = document.querySelectorAll("#pushButton button");
+                    buttonsColor.forEach(btn => {
+                        if(Number(btn.textContent) === targetFloor) {
+                            btn.style.backgroundColor = "";
+                        }
+                    });
+                    
+                    setTimeout(() => {
+                        pressedFloor.shift();
+                        isMoving = false;
+                        moveToFloor();
+                    }, 5000);
+                };
+
+        }, 1000);
+    }
+       
