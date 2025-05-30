@@ -1,7 +1,7 @@
 // 엘레베이터
 
 // 닫힘버튼 열림버튼
-// 높은 층을 먼저 누르고 낮은 층 눌렀을 때 낮은 층이 아직 안지났으면 해당층에서 먼저 멈추도록
+// 올라갈 때는 올라가는 방향만 / 내려갈 때 내겨가는 방향만
 
 let currentFloorDisplay = document.getElementById("currentFloor");
 
@@ -42,11 +42,12 @@ for (i = 10; i >= 1; i --) {
         if (isMoving || pressedFloor.length === 0) {
             return;
         }
-
-        const targetFloor = pressedFloor[0];
+        
         isMoving = true;
-
+        
         const interval = setInterval(() => {
+            const targetFloor = stopClosestFloor();
+
             const leftDoor = document.getElementById("opened-left-door");
             const rightDoor = document.getElementById("opened-right-door");
 
@@ -91,7 +92,10 @@ for (i = 10; i >= 1; i --) {
                 });
                 
                 setTimeout(() => {
-                    pressedFloor.shift();
+                    const index = pressedFloor.indexOf(targetFloor);
+                        if (index > -1) {
+                            pressedFloor.splice(index, 1)
+                        };
                     isMoving = false;
                     moveToFloor();
                 }, 5000);
@@ -100,3 +104,16 @@ for (i = 10; i >= 1; i --) {
         }, 2000);
     }
        
+    // 누른 버튼들 현재층에서 가까운 순으로 정렬
+    function stopClosestFloor() {
+        let closest = pressedFloor[0];
+        let minDistance = Math.abs(currentFloor - closest);
+        for (let floor of pressedFloor) {
+            const distance = Math.abs(currentFloor - floor);
+            if (distance < minDistance) {
+                minDistance = distance;
+                closest = floor;
+            }
+        }
+        return closest;
+    }
