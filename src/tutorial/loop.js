@@ -12,7 +12,7 @@ const pressedFloor =[];
 let isMoving = false;
 
 // 시작 층
-currentFloorDisplay.textContent = `현재 층: ${currentFloor}`;
+currentFloorDisplay.textContent = `${currentFloor}`;
 
 const pushButton = document.getElementById("pushButton")
 
@@ -24,7 +24,7 @@ for (i = 10; i >= 1; i --) {
     document.getElementById("pushButton").appendChild(button);
 
     button.addEventListener("click", function () {
-        console.log('현재층 : ' + currentFloor);
+        console.log('현재층 : '+ currentFloor);
         
         const targetFloor = Number(button.textContent);
         
@@ -53,10 +53,10 @@ for (i = 10; i >= 1; i --) {
 
             if(currentFloor < targetFloor) {
                 currentFloor ++;
-                currentFloorDisplay.textContent = `현재 층: ${currentFloor}`;
+                currentFloorDisplay.textContent = `${currentFloor}`;
             } else if (currentFloor > targetFloor) {
                 currentFloor --;
-                currentFloorDisplay.textContent = `현재 층: ${currentFloor}`;
+                currentFloorDisplay.textContent = `${currentFloor}`;
             } 
             
             if (currentFloor === targetFloor) {
@@ -82,7 +82,7 @@ for (i = 10; i >= 1; i --) {
                 console.log("문이 닫힙니다.");
                 }, 5000);
 
-                currentFloorDisplay.textContent = `현재 층: ${currentFloor}`;
+                currentFloorDisplay.textContent = `${currentFloor}`;
 
                 const buttonsColor = document.querySelectorAll("#pushButton button");
                 buttonsColor.forEach(btn => {
