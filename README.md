@@ -1,2 +1,17 @@
 # javascript-lecture-saenghwal-coding
 생활코딩
+
+
+
+### 올라가는 문 내려가는 문
+기능
+
+- 조건문(`if`) 사용해서 버튼 클릭시 색 변경 / 목표 층 도착 시 색 돌아오는 기능
+- 배열 사용해서 버튼 여러개 클릭 기능 / 중복 클릭 불가
+- 도착 시 `setTimeout` 사용해서 5초간 멈추기
+- `getElementById`의 속성 중 하나인 `classList` 사용해서
+    
+    엘레베이터 문 열리고 닫히는 애니매이션 주기(트리거)
+    
+- `getElementById` 사용해서 html 연결 해서 기능 구현 및 스타일 수정
+- `setInterval` 사용해서 엘레베이터 작동 시 현재 층 계속 변경해주기
