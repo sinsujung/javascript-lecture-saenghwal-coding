@@ -1,6 +1,5 @@
 // 엘레베이터
 
-// 올라갈 때 현재층보다 아래층 버튼 못 누르게
 // 닫힘버튼 열림버튼
 // 도형 뒤에 이미지 넣어서 층마다 다른 캐릭터 보여지게
 
@@ -17,7 +16,7 @@ let isMoving = false;
 // 시작 층
 currentFloorDisplay.textContent = `${currentFloor}`;
 
-const pushButton = document.getElementById("pushButton")
+const pushButton = document.getElementById("pushButton");
 
 for (i = 10; i >= 1; i --) {
     const button = document.createElement("button");
@@ -25,11 +24,21 @@ for (i = 10; i >= 1; i --) {
     button.style.margin = "5px";
     
     document.getElementById("pushButton").appendChild(button);
-
+    
     button.addEventListener("click", function () {
         console.log('현재층 : '+ currentFloor);
         
         const targetFloor = Number(button.textContent);
+        
+        if (direction === "up" && targetFloor < currentFloor) {
+            console.log("올라가는 중에는 아랫방향으로 이동할 수 없습니다.")
+            return;
+        }
+        
+        if (direction === "down" && targetFloor > currentFloor) {
+            console.log("내려가는 중에는 윗 방향으로 이동할 수 없습니다.")
+            return;
+        }
         
         if (!pressedFloor.includes(targetFloor)) {
             pressedFloor.push(targetFloor);
@@ -41,57 +50,58 @@ for (i = 10; i >= 1; i --) {
     });
 }
 
-    function moveToFloor () {
-        if (isMoving || pressedFloor.length === 0) {
-            return;
-        }
+function moveToFloor () {
+    if (isMoving || pressedFloor.length === 0) {
+        return;
+    }
+    
+    isMoving = true;
+    
+    const interval = setInterval(() => {
+        const targetFloor = stopClosestFloor();
         
-        isMoving = true;
+        const leftDoor = document.getElementById("opened-left-door");
+        const rightDoor = document.getElementById("opened-right-door");
         
-        const interval = setInterval(() => {
-            const targetFloor = stopClosestFloor();
-
-            const leftDoor = document.getElementById("opened-left-door");
-            const rightDoor = document.getElementById("opened-right-door");
-
-            if(currentFloor < targetFloor) {
-                direction = "up";
-                currentFloor ++;
-                currentFloorDisplay.textContent = `${currentFloor}`;
-            } else if (currentFloor > targetFloor) {
-                direction = "down";
-                currentFloor --;
-                currentFloorDisplay.textContent = `${currentFloor}`;
-            } 
+        
+        if(currentFloor < targetFloor) {
+            direction = "up";
+            currentFloor ++;
+            currentFloorDisplay.textContent = `${currentFloor}`;
+        } else if (currentFloor > targetFloor) {
+            direction = "down";
+            currentFloor --;
+            currentFloorDisplay.textContent = `${currentFloor}`;
+        } 
+        
+        if (currentFloor === targetFloor) {
+            clearInterval(interval);
             
-            if (currentFloor === targetFloor) {
-                clearInterval(interval);
-                
-                console.log(`${targetFloor}층 도착!`);
-                
-                leftDoor.classList.remove("close-left");
-                rightDoor.classList.remove("close-right");
-
-                leftDoor.classList.add("open-left");
-                rightDoor.classList.add("open-right");
-                
-                console.log("문이 열립니다.");
-
-                setTimeout(() => {
+            console.log(`${targetFloor}층 도착!`);
+            
+            leftDoor.classList.remove("close-left");
+            rightDoor.classList.remove("close-right");
+            
+            leftDoor.classList.add("open-left");
+            rightDoor.classList.add("open-right");
+            
+            console.log("문이 열립니다.");
+            
+            setTimeout(() => {
                 leftDoor.classList.remove("open-left");
                 rightDoor.classList.remove("open-right");
-
+                
                 leftDoor.classList.add("close-left");
                 rightDoor.classList.add("close-right");
                 
                 console.log("문이 닫힙니다.");
-                }, 5000);
+            }, 5000);
 
-                currentFloorDisplay.textContent = `${currentFloor}`;
-
-                const buttonsColor = document.querySelectorAll("#pushButton button");
-                buttonsColor.forEach(btn => {
-                    if(Number(btn.textContent) === targetFloor) {
+            currentFloorDisplay.textContent = `${currentFloor}`;
+            
+            const buttonsColor = document.querySelectorAll("#pushButton button");
+            buttonsColor.forEach(btn => {
+                if(Number(btn.textContent) === targetFloor) {
                         btn.style.backgroundColor = "";
                     }
                 });
@@ -101,11 +111,11 @@ for (i = 10; i >= 1; i --) {
                         if (index > -1) {
                             pressedFloor.splice(index, 1)
                         };
-                    isMoving = false;
-                    moveToFloor();
+                        direction = null;
+                        isMoving = false;
+                        moveToFloor();
                 }, 5000);
             };
-
         }, 2000);
     }
        
