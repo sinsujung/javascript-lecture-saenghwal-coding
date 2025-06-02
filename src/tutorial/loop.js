@@ -10,9 +10,18 @@ let currentFloor = 1
 
 let direction = null;
 
+let isMoving = false;
+
 const pressedFloor =[];
 
-let isMoving = false;
+const openedButton = document.getElementById("open-button");
+const closedButton = document.getElementById("close-button");
+
+closedButton.addEventListener("click", function() {
+    console.log("문이 닫힙니다.");
+
+    closedButton.style.backgroundColor = "rgb(226, 75, 75)";
+});
 
 // 시작 층
 currentFloorDisplay.textContent = `${currentFloor}`;
@@ -63,7 +72,30 @@ function moveToFloor () {
         
         const leftDoor = document.getElementById("opened-left-door");
         const rightDoor = document.getElementById("opened-right-door");
-        
+
+        openedButton.addEventListener("mousedown", function() {
+        openDoor();
+        });
+
+    function openDoor() {
+        leftDoor.classList.remove("close-left");
+        rightDoor.classList.remove("close-right");
+            
+        leftDoor.classList.add("open-left");
+        rightDoor.classList.add("open-right");
+            
+        console.log("문이 열립니다.");
+            
+        setTimeout(() => {
+            leftDoor.classList.remove("open-left");
+            rightDoor.classList.remove("open-right");
+                
+            leftDoor.classList.add("close-left");
+            rightDoor.classList.add("close-right");
+                
+            console.log("문이 닫힙니다.");
+        }, 5000);
+    };
         
         if(currentFloor < targetFloor) {
             direction = "up";
@@ -80,23 +112,7 @@ function moveToFloor () {
             
             console.log(`${targetFloor}층 도착!`);
             
-            leftDoor.classList.remove("close-left");
-            rightDoor.classList.remove("close-right");
-            
-            leftDoor.classList.add("open-left");
-            rightDoor.classList.add("open-right");
-            
-            console.log("문이 열립니다.");
-            
-            setTimeout(() => {
-                leftDoor.classList.remove("open-left");
-                rightDoor.classList.remove("open-right");
-                
-                leftDoor.classList.add("close-left");
-                rightDoor.classList.add("close-right");
-                
-                console.log("문이 닫힙니다.");
-            }, 5000);
+            openDoor();
 
             currentFloorDisplay.textContent = `${currentFloor}`;
             
@@ -119,7 +135,7 @@ function moveToFloor () {
             };
         }, 2000);
     }
-       
+
     // 누른 버튼들 현재층에서 가까운 순으로 정렬
     function stopClosestFloor() {
         const directionFloors = pressedFloor.filter(floor =>
