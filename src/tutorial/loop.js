@@ -1,6 +1,7 @@
 // 엘레베이터
 
 // 닫힘버튼 열림버튼
+    // 해당 버튼 클릭 시 바로 문이 열리고 닫히게
 // 도형 뒤에 이미지 넣어서 층마다 다른 캐릭터 보여지게
 
 let currentFloorDisplay = document.getElementById("currentFloor");

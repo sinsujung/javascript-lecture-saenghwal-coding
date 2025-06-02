@@ -25,10 +25,11 @@
             margin-left: 70px;
             text-align: center;
             border: 3px solid rgb(197, 197, 197);
-            float:left;
+            float: left;
             display: flex;
             justify-content: center;
             overflow:hidden;
+            flex-shrink: 0;
         }
 
         #door-button-outbox {
@@ -36,6 +37,9 @@
             height: 400px;
             margin: auto;
             text-align: center;
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
         }
 
         #currentFloor {
@@ -54,6 +58,7 @@
             width: 25px;
             text-align: right;
             margin-top: 95px;
+            padding-right: 15px;
             float: right;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -75,6 +80,22 @@
         font-weight: bold;
         color: red;
         }
+
+        #close-button, #open-button {
+            width: 20px; 
+            height: 20px; 
+            text-align: center;
+            justify-content: center;
+            display: grid;
+            align-items: center;
+            justify-content: center;
+            float: right;
+        }
+
+        #close-button {
+            margin-left: 10px;
+        }
+
 
         @keyframes openleft {
             0% {
@@ -134,11 +155,15 @@
         <div id="currentFloor"></div>
         <div id="door-button-outbox">
             <div id ="door">
-                <div id="opened-left-door" style="height: 100%; width: 123px; margin-left: 0px; background-color: darkgrey; border-style: solid; border-width: 1px;"></div>
-                <div id="opened-right-door" style="height: 100%; width: 123px; margin-left: 0px; background-color: darkgrey; border-style: solid; border-width: 1px;"></div>
+                <div id="opened-left-door" style="height: 100%; width: 50%; margin-left: 0px; background-color: darkgrey; border-style: solid; border-width: 1px; flex-grow: 0;"></div>
+                <div id="opened-right-door" style="height: 100%; width: 50%; margin-left: 0px; background-color: darkgrey; border-style: solid; border-width: 1px; flex-grow: 0;"></div>
             </div>
             <div id="buttons">
             <div id="pushButton"></div>
+            <div style="display: flex; float: left; margin-left: -19.2px; margin-top: 5px;">
+                <button id="open-button"><img src="../assets/opened.svg" alt="opened"/></button>
+                <button id="close-button"><img src="../assets/closed.svg" alt="closed"/></button>
+            </div>
             </div>
         </div>
     </div>
