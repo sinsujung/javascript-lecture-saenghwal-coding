@@ -26,6 +26,9 @@
             text-align: center;
             border: 3px solid rgb(197, 197, 197);
             float:left;
+            display: flex;
+            justify-content: center;
+            overflow:hidden;
         }
 
         #door-button-outbox {
@@ -131,12 +134,8 @@
         <div id="currentFloor"></div>
         <div id="door-button-outbox">
             <div id ="door">
-                <div class="d-flex justify-content-center align-items-center" style="height: 378px;">
-                    <div></div>
-                    <div id="opened-left-door" class="vr" style="height: 99.2%; width: 1.6px; margin: 0 0px;"></div>
-                    <div id="opened-right-door" class="vr" style="height: 99.2%; width: 1.6px; margin: 0 0px;"></div>
-                    <div></div>
-                </div>
+                <div id="opened-left-door" style="height: 100%; width: 123px; margin-left: 0px; background-color: darkgrey; border-style: solid; border-width: 1px;"></div>
+                <div id="opened-right-door" style="height: 100%; width: 123px; margin-left: 0px; background-color: darkgrey; border-style: solid; border-width: 1px;"></div>
             </div>
             <div id="buttons">
             <div id="pushButton"></div>

@@ -1,11 +1,14 @@
 // 엘레베이터
 
+// 올라갈 때 현재층보다 아래층 버튼 못 누르게
 // 닫힘버튼 열림버튼
-// 올라갈 때는 올라가는 방향만 / 내려갈 때 내겨가는 방향만
+// 도형 뒤에 이미지 넣어서 층마다 다른 캐릭터 보여지게
 
 let currentFloorDisplay = document.getElementById("currentFloor");
 
 let currentFloor = 1
+
+let direction = null;
 
 const pressedFloor =[];
 
@@ -52,9 +55,11 @@ for (i = 10; i >= 1; i --) {
             const rightDoor = document.getElementById("opened-right-door");
 
             if(currentFloor < targetFloor) {
+                direction = "up";
                 currentFloor ++;
                 currentFloorDisplay.textContent = `${currentFloor}`;
             } else if (currentFloor > targetFloor) {
+                direction = "down";
                 currentFloor --;
                 currentFloorDisplay.textContent = `${currentFloor}`;
             } 
@@ -106,9 +111,16 @@ for (i = 10; i >= 1; i --) {
        
     // 누른 버튼들 현재층에서 가까운 순으로 정렬
     function stopClosestFloor() {
-        let closest = pressedFloor[0];
+        const directionFloors = pressedFloor.filter(floor =>
+            direction === "up" ? floor > currentFloor:
+            direction === "down" ? floor < currentFloor : true
+        );
+        if (directionFloors.length === 0) {
+            direction = null;
+        }
+        let closest = directionFloors[0];
         let minDistance = Math.abs(currentFloor - closest);
-        for (let floor of pressedFloor) {
+        for (let floor of directionFloors) {
             const distance = Math.abs(currentFloor - floor);
             if (distance < minDistance) {
                 minDistance = distance;
