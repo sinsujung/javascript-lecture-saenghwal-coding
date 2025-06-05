@@ -96,7 +96,7 @@ function moveToFloor () {
             console.log("문이 닫힙니다.");
         }, 5000);
     };
-        
+
         if(currentFloor < targetFloor) {
             direction = "up";
             currentFloor ++;
