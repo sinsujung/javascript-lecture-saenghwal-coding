@@ -46,3 +46,25 @@ console.log("abcdea".match(og));
 
 var ig = /a/ig; // a를 찾는데 대문자 소문자 구분하지 않고 이 패턴에 해당되는 모든 문자를 찾아서 리턴한다.
 console.log("AabcdAa".match(ig));
+
+/**
+ *  정규 표현식 캡쳐
+ */
+
+var pattern = /(\w+)\s(\w+)/;
+var str = "coding everybody";
+var result = str.replace(pattern, "$2, $1");
+
+console.log(result);
+
+
+/**
+ * 정규 표현식 치환
+ * 
+ */
+var urlPattern = /\b(?:https?):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*/gim;
+var content = '생활코딩 : http://opentutorials.org/course/1 입니다. 네이버 : http://naver.com 입니다. ';
+var result = content.replace(urlPattern, function(url) {
+    return '<a href=" '+url+'">'+url+'</a>';
+});
+console.log(result);
